@@ -4,9 +4,12 @@ const cities = require('./cities');
 const { places, descriptors } = require('./seedHelpers')
 const Campground = require('../models/campground');
 const { $where } = require('../models/campground');
+if (process.env.NODE_ENV !== "production") {
+    require('dotenv').config();
+}
+const url = process.env.DB_URL
 
-
-mongoose.connect('mongodb://localhost:27017/yelp-camp', {
+mongoose.connect(url, {
     useNewUrlParser: true,
 
     useUnifiedTopology: true
@@ -25,7 +28,7 @@ const seedDB = async () => {
     for (let i = 0; i < 400; i++) {
         const rand1000 = Math.floor(Math.random() * 1000);
         const camp = new Campground({
-            author: '61a8a8287545bb97b5410aa3',
+            author: '61b96162528bcf83683241d2',
             location: `${cities[rand1000].city}, ${cities[rand1000].state}`,
             title: `${sample(descriptors)} ${sample(places)} `,
             geometry: {
